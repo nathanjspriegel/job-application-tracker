@@ -8,7 +8,7 @@ class Application(db.Model):
     status = db.Column(db.String(50), default='Applied')
     date_applied = db.Column(db.Date)
     link = db.Column(db.String(500))
-    notes = db.Column(db.Text)
+    note = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class User(db.Model, UserMixin):
