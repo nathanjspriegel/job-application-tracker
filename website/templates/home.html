@@ -135,7 +135,9 @@
         <a href="{{ application.link }}" target="_blank">View</a>
         {% endif %}
       </td>
-      <td>{{ application.note or '' }}</td>
+      <td title="{{ application.note or '' }}">
+        {{ (application.note or '') | truncate(50) }}
+      </td>
       <td>
         <form
           method="POST"
