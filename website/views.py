@@ -26,4 +26,16 @@ def home():
     
     return render_template("home.html", user=current_user)
 
+@views.route('/delete-application/<int:id>', methods=['POST'])
+@login_required
+def delete_application(id):
+    application = Application.query.get_or_404(id)
 
+    if application.user_id != current_user.id:
+        flash('You can not delete other\'s applications', category='error')
+        return redirect(url_for('views.home'))
+
+    db.session.delete(application)
+    db.session.commit()
+    flash('Application deleted.', category='success')
+    return redirect(url_for('views.home'))
