@@ -81,7 +81,54 @@
     <tr>
       <td>{{ application.company }}</td>
       <td>{{ application.position }}</td>
-      <td>{{ application.status }}</td>
+      <td>
+        <form
+          method="POST"
+          action="{{ url_for('views.edit_status', id=application.id) }}"
+        >
+          <!-- prettier-ignore -->
+          <select
+            name="status"
+            class="form-control form-control-sm"
+            onchange="this.form.submit()"
+          >
+            <option
+              {%
+              if
+              application.status == "Applied"
+              %}selected{%
+              endif
+              %}
+            >
+              Applied
+            </option>
+            <option
+              {%
+              if
+              application.status == "Interviewing"
+              %}selected{%
+              endif
+              %}
+            >
+              Interviewing
+            </option>
+            <option {% if application.status == "Offer" %}selected{% endif %}>
+              Offer
+            </option>
+            <option
+              {%
+              if
+              application.status == "Rejected"
+              %}selected{%
+              endif
+              %}
+            >
+              Rejected
+            </option>
+          </select>
+        </form>
+      </td>
+
       <td>{{ application.date_applied.strftime('%b %d, %Y') }}</td>
       <td>
         {% if application.link %}

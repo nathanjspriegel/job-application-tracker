@@ -32,10 +32,32 @@ def delete_application(id):
     application = Application.query.get_or_404(id)
 
     if application.user_id != current_user.id:
-        flash('You can not delete other\'s applications', category='error')
+        flash('You can only delete your applications!', category='error')
         return redirect(url_for('views.home'))
 
     db.session.delete(application)
     db.session.commit()
     flash('Application deleted.', category='success')
     return redirect(url_for('views.home'))
+
+@views.route('/edit-status/<int:id>', methods=['POST'])
+@login_required
+def edit_status(id):
+    application = Application.query.get_or_404(id)
+    
+    if application.user_id != current_user.id:
+        flash('You can only edit your applications!', category='error')
+        return redirect(url_for('views.home'))
+
+    status = request.form.get('status')
+
+    if status not in ['Applied', 'Interviewing', 'Offer', 'Rejected']:
+            flash('Invalid status.', category='error')
+            return redirect(url_for('views.home'))
+
+    application.status = status
+    db.session.commit()
+    flash('Status updated.', category='success')
+    return redirect(url_for('views.home'))
+
+    
