@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
+from datetime import datetime
+from .models import Application
+from . import db
 
 views = Blueprint('views', __name__)
 
