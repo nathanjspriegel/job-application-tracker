@@ -50,16 +50,51 @@
   <div class="form-group">
     <label for="link">Job Posting Link</label>
     <input type="url" class="form-control" id="link" name="link" />
-    <small id="optional" class="text-muted"> (optional) </small>
+    <small id="optionalLink" class="text-muted"> (optional) </small>
   </div>
 
-  <label for="notes">Notes</label>
+  <label for="note">Notes</label>
   <textarea name="note" id="note" class="form-control"></textarea>
-  <small id="optional" class="text-muted"> (optional) </small>
+  <small id="optionalNote" class="text-muted"> (optional) </small>
   <br />
 
   <div align="center">
     <button type="submit" class="btn btn-primary">Add Application</button>
   </div>
 </form>
+
+<h3 align="center" class="mt-5">My Applications</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Position</th>
+      <th>Status</th>
+      <th>Date Applied</th>
+      <th>Link</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for application in user.applications %}
+    <tr>
+      <td>{{ application.company }}</td>
+      <td>{{ application.position }}</td>
+      <td>{{ application.status }}</td>
+      <td>{{ application.date_applied.strftime('%b %d, %Y') }}</td>
+      <td>
+        {% if application.link %}
+        <a href="{{ application.link }}" target="_blank">View</a>
+        {% endif %}
+      </td>
+      <td>{{ application.note or '' }}</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="6" class="text-center text-muted">No applications yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
